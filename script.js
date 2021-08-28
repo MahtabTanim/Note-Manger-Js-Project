@@ -24,6 +24,9 @@ submit.addEventListener('click', function (e) {
 // For Deletion
 const Delete = (e) => {
   ul.removeChild(e);
+  if (ul.childElementCount == 0) {
+    ul.parentElement.removeChild(ul);
+  }
 }
 // For Edit 
 const Edit = (e) => {
@@ -43,7 +46,6 @@ const Edit = (e) => {
         console.log(parent.parentElement);
         Delete(parent.parentElement);
       }
-
     }
   });
 }
@@ -55,5 +57,34 @@ ul.addEventListener('click', e => {
   if (e.target.classList[1] == "fa-times") {
     const parent = e.target.parentElement.parentElement;
     Delete(parent);
+  }
+});
+
+//Hide Unhide
+
+const HideList = document.querySelector("#hide");
+const noteList = document.querySelector(".note-list");
+HideList.addEventListener('click', (e) => {
+  if (noteList.style.display == "" || noteList.style.display == "block") {
+    noteList.style.display = "none";
+    HideList.previousElementSibling.textContent = "Show Notes";
+  } else {
+    noteList.style.display = "block";
+    HideList.previousElementSibling.textContent = "Hide Notes";
+  }
+})
+
+// search
+
+const input = document.querySelector("#search-note input");
+input.addEventListener('keyup', (e) => {
+  let A = Array.from(ul.children);
+  let key = input.value.toLowerCase().toString();
+
+  for (let i = 0; i < A.length; i++) {
+    let text = A[i].firstElementChild.textContent.toLowerCase().toString();
+    if (text.includes(key) == true) {
+      A[i].style.display = "block";
+    } else A[i].style.display = "none";
   }
 });
